@@ -1,0 +1,250 @@
+{
+	"info": {
+		"_postman_id": "a6b43dc5-cd60-4593-a818-790ccbcc9013",
+		"name": "EduSafety",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "6239414"
+	},
+	"item": [
+		{
+			"name": "Categories",
+			"item": [
+				{
+					"name": "All",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:1002/category",
+							"host": [
+								"localhost"
+							],
+							"port": "1002",
+							"path": [
+								"category"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Complaint",
+			"item": [
+				{
+					"name": "History",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:1002/complaint/history?category_id=1&page=1&limit=10",
+							"host": [
+								"localhost"
+							],
+							"port": "1002",
+							"path": [
+								"complaint",
+								"history"
+							],
+							"query": [
+								{
+									"key": "category_id",
+									"value": "1"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Leaderboard",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:1002/complaint/leaderboard",
+							"host": [
+								"localhost"
+							],
+							"port": "1002",
+							"path": [
+								"complaint",
+								"leaderboard"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Detail",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:1002/complaint/2",
+							"host": [
+								"localhost"
+							],
+							"port": "1002",
+							"path": [
+								"complaint",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Questions & Choices",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:1002/complaint/question?category_id=1",
+							"host": [
+								"localhost"
+							],
+							"port": "1002",
+							"path": [
+								"complaint",
+								"question"
+							],
+							"query": [
+								{
+									"key": "category_id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Submit",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "category_id",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "perpetrator",
+									"value": "sahrul",
+									"type": "text"
+								},
+								{
+									"key": "victim",
+									"value": "ilham",
+									"type": "text"
+								},
+								{
+									"key": "incident_date",
+									"value": "2023-12-15",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "dia jahat",
+									"type": "text"
+								},
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/aailh/OneDrive/Pictures/61cjfKHccHL.jpg"
+								},
+								{
+									"key": "answer",
+									"value": "[{\"question_id\":1,\"answer\":1},{\"question_id\":2,\"answer\":4},{\"question_id\":3,\"answer\":\"gapapa kok\"}]",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:1002/complaint",
+							"host": [
+								"localhost"
+							],
+							"port": "1002",
+							"path": [
+								"complaint"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Register",
+					"item": [
+						{
+							"name": "New",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "fullname",
+											"value": "ilham",
+											"type": "text"
+										},
+										{
+											"key": "email",
+											"value": "ilhamcomifuro@yopmail.com",
+											"type": "text"
+										},
+										{
+											"key": "access_code",
+											"value": "MSS",
+											"type": "text"
+										},
+										{
+											"key": "phone",
+											"value": "621234567889",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "testing",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "localhost:1002/register",
+									"host": [
+										"localhost"
+									],
+									"port": "1002",
+									"path": [
+										"register"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}

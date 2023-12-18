@@ -1,5 +1,5 @@
 ﻿# Host: localhost  (Version 5.5.5-10.4.27-MariaDB)
-# Date: 2023-12-18 11:34:19
+# Date: 2023-12-18 21:47:30
 # Generator: MySQL-Front 6.0  (Build 2.20)
 
 
@@ -25,7 +25,7 @@ CREATE TABLE `answers` (
 # Data for table "answers"
 #
 
-INSERT INTO `answers` VALUES (1,1,1,1,NULL,'{\"question_id\":1,\"category_id\":1,\"question\":\"Seberapa ini kamu?\",\"type\":\"dropdown\"}','{\"choice_id\":1,\"question_id\":1,\"choice\":\"Sering\"}','2023-12-15 23:32:23',NULL),(2,1,2,4,NULL,'{\"question_id\":2,\"category_id\":1,\"question\":\"Seberapa itu kamu?\",\"type\":\"dropdown\"}','{\"choice_id\":4,\"question_id\":2,\"choice\":\"Jarang\"}','2023-12-15 23:32:23',NULL),(3,1,3,0,'gapapa kok','{\"question_id\":3,\"category_id\":1,\"question\":\"Bagaimana?\",\"type\":\"text\"}',NULL,'2023-12-15 23:32:23',NULL);
+INSERT INTO `answers` VALUES (1,1,1,1,NULL,'{\"question_id\":1,\"category_id\":1,\"question\":\"Seberapa ini kamu?\",\"type\":\"dropdown\"}','{\"choice_id\":1,\"question_id\":1,\"choice\":\"Sering\"}','2023-12-15 23:32:23',NULL),(2,1,2,4,NULL,'{\"question_id\":2,\"category_id\":1,\"question\":\"Seberapa itu kamu?\",\"type\":\"dropdown\"}','{\"choice_id\":4,\"question_id\":2,\"choice\":\"Jarang\"}','2023-12-15 23:32:23',NULL),(3,1,3,0,'gapapa kok','{\"question_id\":3,\"category_id\":1,\"question\":\"Bagaimana?\",\"type\":\"text\"}',NULL,'2023-12-15 23:32:23',NULL),(4,11,1,1,NULL,'{\"question_id\":1,\"category_id\":1,\"question\":\"Seberapa ini kamu?\",\"type\":\"dropdown\"}','{\"choice_id\":1,\"question_id\":1,\"choice\":\"Sering\"}','2023-12-18 21:43:06',NULL),(5,11,2,4,NULL,'{\"question_id\":2,\"category_id\":1,\"question\":\"Seberapa itu kamu?\",\"type\":\"dropdown\"}','{\"choice_id\":4,\"question_id\":2,\"choice\":\"Jarang\"}','2023-12-18 21:43:06',NULL),(6,11,3,0,'gapapa kok','{\"question_id\":3,\"category_id\":1,\"question\":\"Bagaimana?\",\"type\":\"text\"}',NULL,'2023-12-18 21:43:06',NULL);
 
 #
 # Structure for table "categories"
@@ -92,7 +92,7 @@ CREATE TABLE `complaints` (
 # Data for table "complaints"
 #
 
-INSERT INTO `complaints` VALUES (1,1,1,'sahrul','ilham','2023-12-15','dia jahat','127.0.0.1:1002/1702657943675.jpg',100,'high','2023-12-15 23:32:23','2023-12-17 10:07:09');
+INSERT INTO `complaints` VALUES (1,1,1,'sahrul','ilham','2023-12-15','dia jahat','127.0.0.1:1002/1702657943675.jpg',100,'high','2023-12-15 23:32:23','2023-12-18 19:29:16'),(11,1,1,'laila','algi','2023-12-18','dia psikopat','127.0.0.1:1002/1702910586187.webp',NULL,NULL,'2023-12-18 21:43:06',NULL);
 
 #
 # Structure for table "institutions"
@@ -142,8 +142,10 @@ INSERT INTO `questions` VALUES (1,1,'Seberapa ini kamu?','dropdown','2023-12-14 
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `user_id` int(11) NOT NULL AUTO_INCREMENT,
+  `uid` varchar(50) DEFAULT NULL,
   `email` varchar(100) NOT NULL DEFAULT '',
   `password` varchar(150) NOT NULL DEFAULT '',
+  `provider` enum('register','google') NOT NULL DEFAULT 'register',
   `institution_id` int(11) NOT NULL DEFAULT 0,
   `fullname` varchar(150) DEFAULT NULL,
   `phone` varchar(50) DEFAULT NULL,
@@ -159,4 +161,4 @@ CREATE TABLE `users` (
 # Data for table "users"
 #
 
-INSERT INTO `users` VALUES (1,'ilhamcomifuro@yopmail.com','$2b$10$o5XGizVf.awQxF98S9Epx.XupcM8V5I8M5CT8EFSvVAUAbIqR9cp.',1,'ilham','621234567889',NULL,NULL,0,'2023-12-17 08:59:38',NULL);
+INSERT INTO `users` VALUES (1,'asdasdadasd','aailham007@gmail.com','$2b$10$fSot1KWTgCSv8lBfIQ9ZQ.S7ShomRAyn2t.9ALsVGhOcabJimFMjO','register',1,'ilham comifuro','6282123456789','9343','2023-12-18 20:43:50',0,'2023-12-18 20:40:50','2023-12-18 21:32:02'),(2,'2TxlpwlFwwVKYbOwHziUrNY5kWg2','ilhamcomifur@yopmail.com','$2b$10$lIOaLGiJF5tG7cqL9bsBSumbT1xDShrJ4PbJ.D1TtbUkQAkWPIv2O','register',1,'ilham','621234567889',NULL,NULL,0,'2023-12-18 21:44:10',NULL);

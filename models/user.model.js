@@ -9,8 +9,6 @@ UserModel.save = async (data, condition = []) => {
     if (condition.length > 0) {
         CoreDB.update(tableName);
 
-        data.push({ key: 'updated', value: moment().format('YYYY-MM-DD kk:mm:ss') });
-
         CoreDB.setData(data);
         condition.forEach((record, index) => {
             let jointer = !_.isEmpty(record.jointer) ? record.jointer : 'AND';
@@ -49,8 +47,9 @@ UserModel.delete = async (condition) => {
     return await CoreDB.execute();
 }
 
-UserModel.getBy = async (condition = [], join = [], group = [], limit = null) => {
+UserModel.getBy = async ({condition = [], join = [], group = [], fields = []}) => {
     CoreDB.select(tableName);
+    CoreDB.setFields(fields);
 
     if (condition.length > 0) {
         condition.forEach((record, index) => {
@@ -66,11 +65,11 @@ UserModel.getBy = async (condition = [], join = [], group = [], limit = null) =>
         })
     }
 
-    // if (join.length > 0) {
-    //     join.forEach((record, index) => {
-    //         CoreDB.setJoin(record);
-    //     })
-    // }
+    if (join.length > 0) {
+        join.forEach((record, index) => {
+            CoreDB.setJoin(record);
+        })
+    }
 
     // if (group.length > 0) {
     //     group.forEach((record, index) => {
@@ -78,10 +77,10 @@ UserModel.getBy = async (condition = [], join = [], group = [], limit = null) =>
     //     })
     // }
 
-    CoreDB.setLimit(limit);
+    CoreDB.setLimit(1);
     let result = await CoreDB.execute();
 
-    return result.length == 1 ? result[0] : result;
+    return result.length > 0 ? result[0] : null;
 }
 
 UserModel.getAll = async ({condition = [], join = [], group = [], sort = [], page = null, limit = null, fields = ['*']}) => {

@@ -5,5 +5,6 @@ const { ValidationMiddleware } = require('../middlewares');
 
 router
     .post('/', RegisterController.save)
+    .post('/otp-verification', RegisterController.otpVerification)
 
 module.exports = router;

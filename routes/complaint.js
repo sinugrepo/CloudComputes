@@ -4,7 +4,7 @@ const multer = require('multer')
 const path = require('path')
 
 const ComplaintController = require('../controllers/complaint.controller');
-const { ValidationMiddleware } = require('../middlewares');
+const ValidationMiddleware = require('../middlewares/validation.middleware');
 
 var storage = multer.diskStorage({
     destination: function (req, file, callback) {
@@ -28,6 +28,7 @@ const Validation = {
 };
 
 router
+    .all('/*', ValidationMiddleware.authorization)
     .get('/question', ComplaintController.question)
     .get('/history', ComplaintController.history)
     .get('/leaderboard', ComplaintController.leaderboard)

@@ -1,6 +1,6 @@
 /* global CONFIG */
 const firebaseAdmin = require('firebase-admin')
-const serviceAccount = require('../edusafety-firebase-adminsdk-uzd2g-8e4eb15ca4')
+const serviceAccount = require('../capstone-85334-firebase-adminsdk-qswny-a2bfa34de5.json')
 
 /**
  * Initialize Firebase Admin SDK

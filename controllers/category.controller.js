@@ -9,7 +9,7 @@ CategoryController.get = async (req, res, next) => {
         const { id } = req.params;
         const record = await CategoryModel.getBy([{ jointer: 'AND', key: 'category_id', value: id, op: '=' }], [], [], 1);
 
-        parseResponse(res, 200, _.isEmpty(record) ? {} : record, _.isEmpty(record) ? 'No data found!' : 'success');
+        parseResponse(res, 200, _.isEmpty(record) ? {} : record, _.isEmpty(record) ? 'no data found' : 'success');
     } catch (error) {
         let err = new Error(error.message);
         err.code = 500;
@@ -37,7 +37,7 @@ CategoryController.all = async (req, res, next) => {
 
         let response = { page, pages, limit, total, record };
 
-        parseResponse(res, 200, response, _.isEmpty(record) ? 'No data found!' : 'success');
+        parseResponse(res, 200, response, _.isEmpty(record) ? 'no data found' : 'success');
     } catch (error) {
         let err = new Error(error.message);
         err.code = 500;
@@ -50,7 +50,7 @@ CategoryController.delete = async (req, res, next) => {
         const { id } = req.params;
         const record = await CategoryModel.delete([{ jointer: 'AND', key: 'id', value: id, op: '=' }]);
 
-        parseResponse(res, 200, record, _.isEmpty(record) ? 'No data found!' : 'success');
+        parseResponse(res, 200, record, _.isEmpty(record) ? 'no data found' : 'success');
     } catch (error) {
         let err = new Error(error.message);
         err.code = 500;
@@ -101,7 +101,7 @@ CategoryController.save = async (req, res, next) => {
         
         record = await CategoryModel.save(data, condition);
 
-        parseResponse(res, 200, record, _.isEmpty(record) ? 'No data found!' : 'success');
+        parseResponse(res, 200, record, _.isEmpty(record) ? 'no data found' : 'success');
     } catch (error) {
         let err = new Error(error.message);
         err.code = 500;

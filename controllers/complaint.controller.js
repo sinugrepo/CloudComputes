@@ -47,8 +47,8 @@ ComplaintController.leaderboard = async (req, res, next) => {
 
 ComplaintController.history = async (req, res, next) => {
     try {
+        let { user_id: userId } = req.currentUser
         let { page, limit, category_id: categoryId } = req.query;
-        let userId = 1
         let condition = [
             { key: `user_id = '${userId}'` }
         ];
@@ -70,7 +70,7 @@ ComplaintController.history = async (req, res, next) => {
 
         let response = { page, pages, limit, total, record };
 
-        parseResponse(res, 200, response, _.isEmpty(record) ? 'No data found!' : 'success');
+        parseResponse(res, 200, response, _.isEmpty(record) ? 'no data found' : 'success');
     } catch (error) {
         let err = new Error(error.message);
         err.code = 500;
@@ -80,6 +80,7 @@ ComplaintController.history = async (req, res, next) => {
 
 ComplaintController.save = async (req, res, next) => {
     try {
+        let { user_id: userId } = req.currentUser
         let {
             category_id: categoryId,
             perpetrator,
@@ -90,7 +91,6 @@ ComplaintController.save = async (req, res, next) => {
         } = req.body;
         answer = JSON.parse(answer)
         const filename = req.file.filename
-        let userId = 1
 
         let data = [
             { key: 'user_id', value: userId },
@@ -100,6 +100,8 @@ ComplaintController.save = async (req, res, next) => {
             { key: 'incident_date', value: incidentDate },
             { key: 'description', value: description },
             { key: 'file', value: `${CONFIG.URL}/${filename}` },
+            { key: 'violence_score', value: '100' },
+            { key: 'violence_level', value: 'high' },
         ];
         
         const insert = await ComplaintModel.save(data);
@@ -193,7 +195,7 @@ ComplaintController.question = async (req, res, next) => {
             })
         }
 
-        parseResponse(res, 200, record, _.isEmpty(record) ? 'No data found!' : 'success');
+        parseResponse(res, 200, record, _.isEmpty(record) ? 'no data found' : 'success');
     } catch (error) {
         let err = new Error(error.message);
         err.code = 500;

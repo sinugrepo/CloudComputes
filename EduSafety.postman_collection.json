@@ -13,7 +13,13 @@
 					"name": "All",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJSUzI1NiIsImtpZCI6ImJlNzgyM2VmMDFiZDRkMmI5NjI3NDE2NThkMjA4MDdlZmVlNmRlNWMiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoiaWxoYW0iLCJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vY2Fwc3RvbmUtODUzMzQiLCJhdWQiOiJjYXBzdG9uZS04NTMzNCIsImF1dGhfdGltZSI6MTcwMjkxNDc3OCwidXNlcl9pZCI6IlpkN05DZHhoUkRRMW1LUFZxUEc4NWRNcTdVcDEiLCJzdWIiOiJaZDdOQ2R4aFJEUTFtS1BWcVBHODVkTXE3VXAxIiwiaWF0IjoxNzAyOTE0Nzc4LCJleHAiOjE3MDI5MTgzNzgsImVtYWlsIjoiYWFpbGhhbTAwN0BnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsiYWFpbGhhbTAwN0BnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.B2EL4cWW-S9fIo25_Qd--KegxlapUsTLBFWUV5ELDY_t181OSkcAnfi0mzxz9tq-gkDVVMlvYmgePiNxbYgquhFBPaJ3f0v1A19EnodEjynfq1qFwKqgHdIrIrwXYEh4z6FvZeNXB0--vMJtqpn3KnL6ak-SaQc9VX1RhZ9tDk_0FI3wx_TUy1vT7LqjiJlQG7xelo3IUu-TjIvNOBRaLasJPPDAOhlrDHC8MrPQJS_u1mueXT1RHsDW0A4n0yvwOSIj4Eer9bE-lKQEVCLS2A9KVrAOLqErA6Ia8qWmh3RosG8Yzl6h_K-q6bI7ThUqRK5co_xHkLYX70qJFX1odw",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "localhost:1002/category",
 							"host": [
@@ -36,7 +42,13 @@
 					"name": "History",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJSUzI1NiIsImtpZCI6ImJlNzgyM2VmMDFiZDRkMmI5NjI3NDE2NThkMjA4MDdlZmVlNmRlNWMiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoiaWxoYW0iLCJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vY2Fwc3RvbmUtODUzMzQiLCJhdWQiOiJjYXBzdG9uZS04NTMzNCIsImF1dGhfdGltZSI6MTcwMjkxNDc3OCwidXNlcl9pZCI6IlpkN05DZHhoUkRRMW1LUFZxUEc4NWRNcTdVcDEiLCJzdWIiOiJaZDdOQ2R4aFJEUTFtS1BWcVBHODVkTXE3VXAxIiwiaWF0IjoxNzAyOTE0Nzc4LCJleHAiOjE3MDI5MTgzNzgsImVtYWlsIjoiYWFpbGhhbTAwN0BnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsiYWFpbGhhbTAwN0BnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.B2EL4cWW-S9fIo25_Qd--KegxlapUsTLBFWUV5ELDY_t181OSkcAnfi0mzxz9tq-gkDVVMlvYmgePiNxbYgquhFBPaJ3f0v1A19EnodEjynfq1qFwKqgHdIrIrwXYEh4z6FvZeNXB0--vMJtqpn3KnL6ak-SaQc9VX1RhZ9tDk_0FI3wx_TUy1vT7LqjiJlQG7xelo3IUu-TjIvNOBRaLasJPPDAOhlrDHC8MrPQJS_u1mueXT1RHsDW0A4n0yvwOSIj4Eer9bE-lKQEVCLS2A9KVrAOLqErA6Ia8qWmh3RosG8Yzl6h_K-q6bI7ThUqRK5co_xHkLYX70qJFX1odw",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "localhost:1002/complaint/history?category_id=1&page=1&limit=10",
 							"host": [
@@ -164,7 +176,7 @@
 								{
 									"key": "file",
 									"type": "file",
-									"src": "/C:/Users/aailh/OneDrive/Pictures/61cjfKHccHL.jpg"
+									"src": "/C:/Users/ahmad.ilham/Pictures/0000001.jpg"
 								},
 								{
 									"key": "answer",
@@ -209,7 +221,7 @@
 										},
 										{
 											"key": "email",
-											"value": "ilhamcomifuro@yopmail.com",
+											"value": "aailham007@gmail.com",
 											"type": "text"
 										},
 										{
@@ -243,6 +255,49 @@
 							"response": []
 						}
 					]
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "fullname",
+									"value": "ilham comifuro",
+									"type": "text"
+								},
+								{
+									"key": "access_code",
+									"value": "MSS",
+									"type": "text"
+								},
+								{
+									"key": "phone",
+									"value": "6282123456789",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:1002/user",
+							"host": [
+								"localhost"
+							],
+							"port": "1002",
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		}

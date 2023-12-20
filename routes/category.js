@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const { header, body } = require('express-validator');
 const { CategoryController } = require('../controllers');
-const { ValidationMiddleware } = require('../middlewares');
+const ValidationMiddleware = require('../middlewares/validation.middleware');
 
 const Validation = {
     all: [
@@ -15,6 +15,7 @@ const Validation = {
 };
 
 router
+    .all('/*', ValidationMiddleware.authorization)
     .get('/', CategoryController.all)
     .get('/:id', CategoryController.get)
     .post('/', CategoryController.save)

@@ -9,8 +9,6 @@ ComplaintModel.save = async (data, condition = []) => {
     if (condition.length > 0) {
         CoreDB.update(tableName);
 
-        data.push({ key: 'updated', value: moment().format('YYYY-MM-DD kk:mm:ss') });
-
         CoreDB.setData(data);
         condition.forEach((record, index) => {
             let jointer = !_.isEmpty(record.jointer) ? record.jointer : 'AND';
@@ -49,7 +47,7 @@ ComplaintModel.delete = async (condition) => {
     return await CoreDB.execute();
 }
 
-ComplaintModel.getBy = async ({condition = [], join = [], group = [], fields = []}) => {
+ComplaintModel.getBy = async ({condition = [], join = [], group = [], fields = [], sort = []}) => {
     CoreDB.select(tableName);
     CoreDB.setFields(fields);
 
@@ -67,17 +65,23 @@ ComplaintModel.getBy = async ({condition = [], join = [], group = [], fields = [
         })
     }
 
-    // if (join.length > 0) {
-    //     join.forEach((record, index) => {
-    //         CoreDB.setJoin(record);
-    //     })
-    // }
+    if (join.length > 0) {
+        join.forEach((record, index) => {
+            CoreDB.setJoin(record);
+        })
+    }
 
     // if (group.length > 0) {
     //     group.forEach((record, index) => {
     //         CoreDB.setJoin(record);
     //     })
     // }
+
+    if (sort.length > 0) {
+        sort.forEach((record, index) => {
+            CoreDB.setOrder(record);
+        })
+    }
 
     CoreDB.setLimit(1);
     let result = await CoreDB.execute();

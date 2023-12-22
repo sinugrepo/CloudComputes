@@ -4,6 +4,7 @@ const ChoiceModel = require('../models/choice.model');
 const ComplaintModel = require('../models/complaint.model');
 const AnswerModel = require('../models/answer.model');
 const InstitutionModel = require('../models/institution.model');
+const CategoryScoreModel = require('../models/category-score.model');
 const parseResponse = require('../helpers/parse-response');
 const ComplaintController = {}
 
@@ -12,8 +13,17 @@ ComplaintController.detail = async (req, res, next) => {
         const { id } = req.params;
         const record = await ComplaintModel.getBy({
             condition: [{ jointer: 'AND', key: 'complaint_id', value: id, op: '=' }],
-            fields: ['perpetrator', 'victim', 'incident_date', 'description', 'file', 'violence_level']
+            fields: ['perpetrator', 'victim', 'incident_date', 'description', 'file', 'violence_label', 'categories.name category_name', 'institutions.name institution_name'],
+            join: [
+                'JOIN categories ON categories.category_id = complaints.category_id',
+                'JOIN users ON users.user_id = complaints.user_id',
+                'JOIN institutions ON institutions.institution_id = institutions.institution_id',
+            ],
         });
+
+        if (!_.isEmpty(record)) {
+            record.file = `${CONFIG.URL}/uploads/${record.file}`
+        }
 
         parseResponse(res, 200, record, _.isEmpty(record) ? 'no data found' : 'success');
     } catch (error) {
@@ -64,6 +74,10 @@ ComplaintController.history = async (req, res, next) => {
         const sort = ['complaint_id DESC']
         
         let record  = await ComplaintModel.getAll({condition, page, limit, fields, sort});
+        record = record.map(val => {
+            val.file = `${CONFIG.URL}/uploads/${val.file}`
+            return val
+        })
         let total   = await ComplaintModel.getCount({condition});
 
         const pages = Math.ceil(total / limit);
@@ -99,9 +113,7 @@ ComplaintController.save = async (req, res, next) => {
             { key: 'victim', value: victim },
             { key: 'incident_date', value: incidentDate },
             { key: 'description', value: description },
-            { key: 'file', value: `${CONFIG.URL}/${filename}` },
-            { key: 'violence_score', value: '100' },
-            { key: 'violence_level', value: 'high' },
+            { key: 'file', value: filename },
         ];
         
         const insert = await ComplaintModel.save(data);
@@ -121,16 +133,18 @@ ComplaintController.save = async (req, res, next) => {
             const questionObject = _.keyBy(questions, 'question_id')
 
             condition = [{ key: `choice_id IN (${choiceIds.join(',')})` }];
-            fields = ['choice_id', 'question_id', 'choice']
+            fields = ['choice_id', 'question_id', 'choice', 'grade']
             const choices  = await ChoiceModel.getAll({condition, fields});
             const choiceObject = _.keyBy(choices, 'choice_id')
 
             let answerCompose = []
             let answerField = ['complaint_id', 'question_id', 'choice_id', 'choice_text', 'meta_question', 'meta_choice',]
+            let violenceScore = 0
             answer.map(val => {
                 let choiceId = _.isNumber(val.answer) ? val.answer : 0
                 let choiceText = _.isNumber(val.answer) ? null : val.answer
                 let metaChoice = _.isNumber(val.answer) ? JSON.stringify(choiceObject[val.answer]) : null
+                violenceScore += _.isNumber(val.answer) ? choiceObject[val.answer].grade : 0
 
                 answerCompose.push([
                     complaintId,
@@ -142,6 +156,25 @@ ComplaintController.save = async (req, res, next) => {
                 ])
             })
             const saveAnswerBatch = await AnswerModel.saveBatch({field: answerField, data: answerCompose})
+            
+            // scoring
+            condition = [{ key: `category_id = ${categoryId}` }];
+            fields = ['grade', 'label', 'description']
+            let categoryScores = await CategoryScoreModel.getAll({condition, fields, sort: ['grade DESC']})
+            let violenceLabel = null
+            let violenceDescription = null
+            categoryScores.map(val => {
+                if (violenceScore >= val.grade && violenceLabel === null) {
+                    violenceLabel = val.label
+                    violenceDescription = val.description
+                }
+            })
+            ComplaintModel.save([
+                { key: 'violence_score', value: violenceScore.toString() },
+                { key: 'violence_label', value: violenceLabel },
+                { key: 'violence_description', value: violenceDescription },
+            ], [{ key: `complaint_id = ${complaintId}` }])
+
         }
 
         parseResponse(res, 200, { id: complaintId }, msg, acknowledge);

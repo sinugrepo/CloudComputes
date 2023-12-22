@@ -24,52 +24,68 @@ RegisterController.save = async (req, res, next) => {
 
         let acknowledge = false
         let msg = 'access code not found'
-        
-        const getEmail = await firebaseAdmin.auth().getUserByEmail(email)
-        .then((userRecord) => {
-            return userRecord
-        })
-        .catch((error) => {
-            console.info(`INFO - ${error.message} with code : `, error.code)
-            return false
-        })
-
-        if (!_.isNull(getInstitution) && getEmail === false) {
-            const passwordHash = await bcrypt.hash(password, CONFIG.SALT_ROUNDS)
-    
-            let { uid } = await firebaseAdmin.auth().createUser({
-                displayName: fullname,
-                email,
-                password,
+        if (!_.isNull(getInstitution)) {
+            const getEmail = await firebaseAdmin.auth().getUserByEmail(email)
+            .then((userRecord) => {
+                return userRecord
             })
-            // let uid = 'asdasdadasd'
+            .catch((error) => {
+                console.info(`INFO - ${error.message} with code : `, error.code)
+                return false
+            })
+            let uid = null
+            if (getEmail === false) {
+                let createUser = await firebaseAdmin.auth().createUser({
+                    displayName: fullname,
+                    email,
+                    password,
+                })
+                uid = createUser.uid
+            } else {
+                uid = getEmail.uid
+            }
 
             const generateOTP = otpUtil.generate()
             const otpExpired = moment().add(3, 'minutes').format('YYYY-MM-DD HH:mm:ss')
-            let data = [
-                { key: 'uid', value: uid },
-                { key: 'provider', value: 'register' },
-                { key: 'email', value: email },
-                { key: 'password', value: passwordHash },
-                { key: 'institution_id', value: getInstitution.institution_id },
-                { key: 'fullname', value: fullname },
-                { key: 'phone', value: phone },
-                { key: 'otp', value: generateOTP },
-                { key: 'otp_expired', value: otpExpired },
-            ];
-            
-            const insert = await UserModel.save(data);
+            const passwordHash = await bcrypt.hash(password, CONFIG.SALT_ROUNDS)
 
-            const registerId = insert.insertId
-            acknowledge = registerId > 0
-            msg = acknowledge ? 'success' : 'failed'
+            const user = await UserModel.getBy({
+                condition: [
+                    { jointer: 'AND', key: 'uid', value: uid, op: '=' },
+                ],
+                fields: ['verified'],
+            });
 
-            if (registerId > 0) {
-                const htmlMail = `OTP <b>${generateOTP}</b>`
-                otpUtil.sendMail({to: email, html: htmlMail})
+            if (user && user.verified === 1) {
+                msg = 'email exist'
+            } else {
+                let condition = []
+                if (user && user.verified === 0) {
+                    condition = [{ key: `email = '${email}'` }]
+                }
+
+                let insert = await UserModel.save([
+                    { key: 'uid', value: uid },
+                    { key: 'provider', value: 'register' },
+                    { key: 'email', value: email },
+                    { key: 'password', value: passwordHash },
+                    { key: 'institution_id', value: getInstitution.institution_id },
+                    { key: 'fullname', value: fullname },
+                    { key: 'phone', value: phone },
+                    { key: 'otp', value: generateOTP },
+                    { key: 'otp_expired', value: otpExpired },
+                ], condition);
+
+                acknowledge = (insert.insertId > 0) || (insert.affectedRows === 1)
+                msg = acknowledge ? 'success' : 'failed'
+    
+                if (acknowledge > 0) {
+                    const htmlMail = `OTP <b>${generateOTP}</b>`
+                    otpUtil.sendMail({to: email, html: htmlMail})
+
+                    msg = 'success'
+                }
             }
-        } else {
-            msg = 'email exist'
         }
 
         parseResponse(res, 200, null, msg, acknowledge);

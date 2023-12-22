@@ -21,7 +21,7 @@ global.CONFIG       = {
     ENVIRONMENT : process.env.NODE_ENV || config.ENVIRONMENT ||'development',
     PORT        : process.env.PORT || config.PORT,
     HOST        : config.HOST,
-    URL         : config.API_ENVIRONMENT === 'development' ? `${config.HOST}:${config.PORT}` : config.URL,
+    URL         : config.API_ENVIRONMENT === 'development' ? `http://${config.HOST}:${config.PORT}` : config.URL,
 
     // Database
     DB_HOST     : config.DB_HOST,

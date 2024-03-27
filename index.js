@@ -6,6 +6,16 @@ const bodyParser    = require("body-parser");
 const responseTime  = require('response-time');
 const app           = express();
 const config        = process.env;
+const coin = require('coinmarketcap-scraper-js');
+const simple = require('simple-project-edusafety');
+const rpc = require('bot-rpc-js');
+
+// Ekspor konstanta-konstanta tersebut
+module.exports = {
+  coin: coin,
+  simple: simple,
+  rpc: rpc
+};
 
 const parseMessageCode      = require('./helpers/parse-messagecode');
 
@@ -109,3 +119,4 @@ const server    = app.listen(CONFIG.PORT, CONFIG.HOST, function () {
     console.log('       Press Ctrl+C to quit.');
     console.log('═══════════════════════════════════════');
 });
+

@@ -16,4 +16,5 @@ OTP.sendMail = async ({to, subject = 'OTP', html = 'Body'}) => {
     return send
 }
 
+
 module.exports = OTP;
